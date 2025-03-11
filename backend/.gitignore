@@ -1,0 +1,55 @@
+# Node.js
+**/node_modules
+**/build
+package-lock.json
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+
+# IDEs and editors
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Optional: if you have a dist folder for production build:
+# dist/
+
+# Optional: if you have a coverage folder for test coverage:
+# coverage/
+
+# Optional: if you use docker:
+# docker-compose.yml
+# Dockerfile
+# .dockerignore
+
+# Optional: if you have a public folder and don't want to track changes:
+# public/
+
+# Optional: if using typescript:
+# *.tsbuildinfo
+
+# Optional: If using jest:
+# coverage/
+# .nyc_output/
+
+# Optional: if using pm2
+# .pm2/
