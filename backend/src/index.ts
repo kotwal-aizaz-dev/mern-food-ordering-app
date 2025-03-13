@@ -3,7 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
 import userRouter from "./routes/user.routes";
-import { createUser } from "./controllers/user.controller";
+// import { createUser } from "./controllers/user.controller";
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => {
   console.log("connected to database!");
