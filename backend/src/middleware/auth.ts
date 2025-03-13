@@ -21,7 +21,7 @@ export const jwtCheck = auth({
 export const jwtParse = async (
   req: Request,
   res: Response,
-  // next: NextFunction
+  next: NextFunction
 ) => {
   const { authorization } = req.headers;
 
@@ -44,7 +44,7 @@ export const jwtParse = async (
 
     req.auth0Id = auth0Id as string;
     req.userId = user._id.toString();
-    // next();
+    next();
   } catch (error) {
     return res.sendStatus(401);
   }
