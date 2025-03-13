@@ -1,16 +1,19 @@
 import React from "react";
-import { AppState, Auth0Provider, User } from "@auth0/auth0-react";
+import { Auth0Provider} from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
-type Props = {
-  children: React.ReactNode;
-};
 
 // auth params from the env 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 const redirectURI = import.meta.env.VITE_AUTH0_CALLBACK_URL;
 
+// Prop types 
+type Props = {
+  children: React.ReactNode;
+};
+
+// Component 
 const Auth0ProviderWithNavigation = ({ children }: Props) => {
   // access the create user method from custom react-query hook 
   const navigate = useNavigate()
@@ -21,9 +24,8 @@ const Auth0ProviderWithNavigation = ({ children }: Props) => {
   }
 
   // handle login/sign up redirect 
-  function handleRedirectCallback(appState?: AppState, user?: User) {
-    console.log("USER", user);
-    console.log("App State", appState);
+  function handleRedirectCallback() {
+    // navigate to auth callback to handle the token
     navigate("/auth-callback")
 
   }
