@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 const redirectURI = import.meta.env.VITE_AUTH0_CALLBACK_URL;
-
+// adding audience to make sure that all the requests are coming from the same Auth0 api server
+const audience = import.meta.env.VITE_AUTH0_AUDIENCE
 // Prop types 
 type Props = {
   children: React.ReactNode;
@@ -19,7 +20,7 @@ const Auth0ProviderWithNavigation = ({ children }: Props) => {
   const navigate = useNavigate()
 
   // check if we have the access to auth 
-  if (!domain || !clientId || !redirectURI) {
+  if (!domain || !clientId || !redirectURI || !audience) {
     throw new Error("Unable to initialize auth!");
   }
 
@@ -36,6 +37,7 @@ const Auth0ProviderWithNavigation = ({ children }: Props) => {
       clientId={clientId}
       authorizationParams={{
         redirect_uri: redirectURI,
+        audience
       }}
       onRedirectCallback={handleRedirectCallback}
     >
