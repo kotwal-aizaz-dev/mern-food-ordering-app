@@ -1,6 +1,7 @@
 import React from "react";
 import { AppState, Auth0Provider, User } from "@auth0/auth0-react";
-import useCreateUser from "@/api/useCreateUser";
+import { useNavigate } from "react-router-dom";
+
 type Props = {
   children: React.ReactNode;
 };
@@ -12,7 +13,7 @@ const redirectURI = import.meta.env.VITE_AUTH0_CALLBACK_URL;
 
 const Auth0ProviderWithNavigation = ({ children }: Props) => {
   // access the create user method from custom react-query hook 
-  const { createUser } = useCreateUser();
+  const navigate = useNavigate()
 
   // check if we have the access to auth 
   if (!domain || !clientId || !redirectURI) {
@@ -23,9 +24,8 @@ const Auth0ProviderWithNavigation = ({ children }: Props) => {
   function handleRedirectCallback(appState?: AppState, user?: User) {
     console.log("USER", user);
     console.log("App State", appState);
-    // if we have the user data then create the user inside the database 
-    if (user?.sub && user?.email)
-      createUser({ auth0Id: user.sub, email: user.email });
+    navigate("/auth-callback")
+
   }
   // Auth Wrapper JSX
   return (

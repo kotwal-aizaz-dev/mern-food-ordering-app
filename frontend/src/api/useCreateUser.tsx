@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "react-query";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -7,24 +8,31 @@ type CreateUserRequest = {
   email: string;
 };
 
-const useCreateUser = () => {
+export const useCreateUser = () => {
   // POST request to /api/user
+  const { getAccessTokenSilently } = useAuth0();
   const createUserRequest = async (user: CreateUserRequest) => {
-    const response = await fetch(`${API_BASE_URL}/api/user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
+    try {
+      const accessToken = await getAccessTokenSilently();
+      const response = await fetch(`${API_BASE_URL}/api/user`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
 
-    // if there is no response throw an error 
-    if (!response.ok) {
-      throw new Error("Failed to create user");
+      // if there is no response throw an error
+      if (!response.ok) {
+        throw new Error("Failed to create user");
+      }
+    } catch (error) {
+      console.error("Error creating user", error);
     }
   };
 
-  // use react-query for handling user creation 
+  // use react-query for handling user creation
   const {
     mutateAsync: createUser,
     isLoading,
@@ -34,7 +42,7 @@ const useCreateUser = () => {
   return { createUser, isError, isLoading, isSuccess };
 };
 
-export default useCreateUser;
+
 
 /**
  * ?React Query
