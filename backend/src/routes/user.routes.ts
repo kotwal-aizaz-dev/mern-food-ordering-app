@@ -3,6 +3,7 @@ import {getCurrentUser,createCurrentUser,updateCurrentUser} from "../controllers
 import { jwtCheck, jwtParse } from "../middleware/auth";
 import { validateUserRequest } from "../middleware/validation";
 
+
 const router = express.Router();
 
 // /api/my/user
