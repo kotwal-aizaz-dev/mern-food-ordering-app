@@ -8,6 +8,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 const AppRoutes = () => {
   return (
     <Routes>
+      {/* Route for the home page */}
       <Route
         path="/"
         element={
@@ -16,7 +17,9 @@ const AppRoutes = () => {
           </Layout>
         }
       />
+      {/* Route for the authentication callback page */}
       <Route path="/auth-callback" element={<AuthCallbackPage />} />
+      {/* Protected route for user profile page */}
       <Route element={<ProtectedRoute />}>
         <Route
           path="/user-profile"
@@ -27,8 +30,8 @@ const AppRoutes = () => {
           }
         />
       </Route>
-      <Route path="*" element={<Navigate to={"/"} />} /> //?catch all route to
-      redirect all the unknown urls to home.
+      {/* Catch-all route to redirect unknown URLs to home */}
+      <Route path="*" element={<Navigate to={"/"} />} />
     </Routes>
   );
 };

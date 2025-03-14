@@ -4,11 +4,17 @@ import { toast } from "sonner";
 import {User} from "types"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+// Custom hook to get the current user's data from the API
 export const useGetCurrentUser = () => {
+  // Get the function to silently obtain Auth0 access token
   const { getAccessTokenSilently } = useAuth0();
+
+  // Function to fetch the current user's data from the server
   const getUserRequest = async (): Promise<User> => {
+    // Get the access token for authentication
     const accessToken = await getAccessTokenSilently();
+    
+    // Send GET request to the API endpoint with auth token
     const response = await fetch(`${API_BASE_URL}/api/user`, {
       method: "GET",
       headers: {
@@ -16,33 +22,50 @@ export const useGetCurrentUser = () => {
         "Content-Type": "application/json",
       },
     });
+
+    // If the API request fails, throw an error with message
     if (!response.ok) {
       throw new Error("Failed to fetch user");
     }
+
+    // Parse and return the JSON response containing user data
     return response.json();
   };
+
+  // Use react-query's useQuery hook to handle data fetching and caching
   const {
-    data: currentUser,
-    isLoading,
-    error,
+    data: currentUser, // Rename the returned data as currentUser
+    isLoading,        // Track loading state
+    error,           // Track any errors that occur
   } = useQuery("fetchCurrentUser", getUserRequest);
+
+  // Display error message if the request fails
   if (error) {
     toast.error(error.toString());
   }
+
+  // Return the user data and loading state to the component
   return { currentUser, isLoading };
 };
 
+// Type definition for the required fields when creating a new user
 type CreateUserRequest = {
   auth0Id: string;
   email: string;
 };
 
+// Custom hook to handle user creation in the database 
 export const useCreateUser = () => {
-  // POST request to /api/user
+  // Get the function to silently obtain Auth0 access token
   const { getAccessTokenSilently } = useAuth0();
+
+  // Function to send POST request to create a new user
   const createUserRequest = async (user: CreateUserRequest) => {
     try {
+      // Get the access token for authentication
       const accessToken = await getAccessTokenSilently();
+      
+      // Send POST request to the API with user data
       const response = await fetch(`${API_BASE_URL}/api/user`, {
         method: "POST",
         headers: {
@@ -52,7 +75,7 @@ export const useCreateUser = () => {
         body: JSON.stringify(user),
       });
 
-      // if there is no response throw an error
+      // Throw error if the request was not successful
       if (!response.ok) {
         throw new Error("Failed to create user");
       }
@@ -61,26 +84,37 @@ export const useCreateUser = () => {
     }
   };
 
-  // use react-query for handling user creation
+  // Use react-query's useMutation hook to handle the creation operation
   const {
     mutateAsync: createUser,
     isLoading,
     isError,
     isSuccess,
   } = useMutation(createUserRequest);
+
+  // Return the create function and status flags
   return { createUser, isError, isLoading, isSuccess };
 };
 
+// Type definition for user update request containing required fields
 type UpdateUserRequest = {
   name: string;
   addressLine1: string;
   city: string;
   country: string;
 };
+
+// Custom hook for handling user profile updates
 export const useUpdateUser = () => {
+  // Get the function to silently obtain Auth0 access token
   const { getAccessTokenSilently } = useAuth0();
+
+  // Function to send PUT request to update user data
   const updateUserRequest = async (formData: UpdateUserRequest) => {
+    // Get the access token for authentication
     const accessToken = await getAccessTokenSilently();
+    
+    // Send PUT request to the API with user data
     const response = await fetch(`${API_BASE_URL}/api/user`, {
       method: "PUT",
       headers: {
@@ -90,11 +124,13 @@ export const useUpdateUser = () => {
       body: JSON.stringify(formData),
     });
 
+    // Throw error if the request was not successful
     if (!response.ok) {
       throw new Error("Failed to update user");
     }
   };
 
+  // Use react-query's useMutation hook to handle the update operation
   const {
     mutateAsync: updateUser,
     isLoading,
@@ -103,15 +139,18 @@ export const useUpdateUser = () => {
     reset,
   } = useMutation(updateUserRequest);
 
+  // Show success message when update is successful
   if (isSuccess) {
     toast.success("User profile updated!");
   }
 
+  // Show error message and reset mutation state if there's an error
   if (error) {
     toast.error(error.toString());
     reset();
   }
 
+  // Return the update function and loading state
   return { updateUser, isLoading };
 };
 
