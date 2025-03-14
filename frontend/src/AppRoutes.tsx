@@ -4,6 +4,7 @@ import HomePage from "./components/pages/HomePage";
 import AuthCallbackPage from "./components/pages/AuthCallbackPage";
 import UserProfilePage from "./components/pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import ManageRestaurantPage from "./components/pages/ManageRestaurantPage";
 
 const AppRoutes = () => {
   return (
@@ -29,7 +30,16 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+        <Route
+          path="/manage-restaurant"
+          element={
+            <Layout>
+              <ManageRestaurantPage />
+            </Layout>
+          }
+        />
       </Route>
+      
       {/* Catch-all route to redirect unknown URLs to home */}
       <Route path="*" element={<Navigate to={"/"} />} />
     </Routes>
