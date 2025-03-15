@@ -9,10 +9,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import LoadingButton from "../LoadingButton";
-import { Button } from "../ui/button";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
+import LoadingButton from "../../LoadingButton";
+import { Button } from "../../ui/button";
 import { User } from "types";
 import { useEffect } from "react";
 
@@ -35,15 +35,15 @@ type Props = {
   currentUser: User;
 };
 
-// Component 
+// Component
 const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
-  // initialize the react hook form with zod resolver and default values 
+  // initialize the react hook form with zod resolver and default values
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: currentUser,
   });
 
-  // effect to reload the form if the user has changed 
+  // effect to reload the form if the user has changed
   useEffect(() => {
     form.reset(currentUser);
   }, [currentUser, form]);

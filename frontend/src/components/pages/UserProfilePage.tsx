@@ -1,5 +1,5 @@
-import { useGetCurrentUser, useUpdateUser } from "@/api/useCreateUser";
-import UserProfileForm from "../forms/UserProfileForm";
+import { useGetCurrentUser, useUpdateUser } from "@/api/UserApi";
+import UserProfileForm from "../forms/user/UserProfileForm";
 
 const UserProfilePage = () => {
   const { updateUser, isLoading: isUpdateLoading } = useUpdateUser();
@@ -11,7 +11,13 @@ const UserProfilePage = () => {
     return <span>Unable to load user profile</span>;
   }
 
-  return <UserProfileForm currentUser={currentUser} onSave={updateUser} isLoading={isUpdateLoading} />;
+  return (
+    <UserProfileForm
+      currentUser={currentUser}
+      onSave={updateUser}
+      isLoading={isUpdateLoading}
+    />
+  );
 };
 
 export default UserProfilePage;

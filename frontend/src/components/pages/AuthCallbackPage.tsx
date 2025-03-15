@@ -1,4 +1,4 @@
-import {useCreateUser} from "@/api/useCreateUser";
+import { useCreateUser } from "@/api/UserApi";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
