@@ -25,7 +25,7 @@ const ImageSection = () => {
       <div className="flex flex-col gap-8 md:w-[50%]">
         {existingImageUrl && (
           <AspectRatio ratio={16/9}>
-            <img src={existingImageUrl} alt="" className="rounded-md object-cover h-full w-full"/>
+            <img src={existingImageUrl} alt="" className="rounded-md object-fill h-full w-full"/>
           </AspectRatio>
         )}
         <FormField
@@ -35,7 +35,7 @@ const ImageSection = () => {
             <FormItem>
               <FormControl>
                 <Input
-                  className="bg-white"
+                  className="bg-white cursor-pointer"
                   type="file"
                   accept=".jpg, .jpeg, .png"
                   onChange={(event) =>
