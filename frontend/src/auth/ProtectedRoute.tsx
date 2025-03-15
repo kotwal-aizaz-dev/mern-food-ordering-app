@@ -3,11 +3,14 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
   // Get the authentication state from Auth0
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
 
   // If the user is authenticated, render the child routes (Outlet)
   // Otherwise, navigate to the home page
-  return isAuthenticated ? <Outlet /> : <Navigate to={"/"} replace />; // When replace is true, the navigation will replace the current entry in the history stack instead of adding a new one.
+  if(isLoading) return null
+  if(isAuthenticated) return <Outlet/>
+  return <Navigate to={"/"} replace/>
+  // return isAuthenticated ? <Outlet /> : <Navigate to={"/"} replace />; // When replace is true, the navigation will replace the current entry in the history stack instead of adding a new one.
 };
 
 export default ProtectedRoute;
