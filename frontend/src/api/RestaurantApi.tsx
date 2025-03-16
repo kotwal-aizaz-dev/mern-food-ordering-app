@@ -1,3 +1,4 @@
+import { SearchState } from "@/components/pages/SearchPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
@@ -97,10 +98,16 @@ export const useUpdateRestaurant = () => {
   };
 };
 
-export const useSearchRestaurants = (city?: string) => {
+export const useSearchRestaurants = (
+  searchState: SearchState,
+  city?: string,
+) => {
   const searchRequest = async (): Promise<RestaurantSearchResponse> => {
+    const params = new URLSearchParams();
+    params.set("searchQuery", searchState.searchQuery);
+    params.set("page", searchState.page.toString())
     const response = await fetch(
-      `${API_BASE_URL}/api/restaurant/search/${city}`,
+      `${API_BASE_URL}/api/restaurant/search/${city}?${params.toString()}`,
       {}
     );
     if (!response.ok) {
@@ -111,7 +118,7 @@ export const useSearchRestaurants = (city?: string) => {
   };
 
   const { data: results, isLoading } = useQuery(
-    ["searchRestaurants"],
+    ["searchRestaurants", searchState],
     searchRequest,
     {
       enabled: !!city,
