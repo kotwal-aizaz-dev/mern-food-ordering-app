@@ -3,10 +3,12 @@ import multer from "multer";
 import {
   createRestaurant,
   getRestaurant,
+  getRestaurants,
   updateRestaurant,
 } from "../controllers/restaurant.controller";
 import { jwtCheck, jwtParse } from "../middleware/auth";
 import { validateRestaurantRequest } from "../middleware/requests.validation";
+import { param } from "express-validator";
 
 const router = Router();
 
@@ -37,4 +39,7 @@ router.put(
   updateRestaurant as any
 );
 
+router.get("/search/:city" , param("city").isString().trim().notEmpty().withMessage("City parameter must be a valid string"),
+getRestaurants as any
+)
 export default router;
