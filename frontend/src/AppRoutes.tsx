@@ -5,6 +5,7 @@ import AuthCallbackPage from "./components/pages/AuthCallbackPage";
 import UserProfilePage from "./components/pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ManageRestaurantPage from "./components/pages/ManageRestaurantPage";
+import SearchPage from "./components/pages/SearchPage";
 
 const AppRoutes = () => {
   return (
@@ -39,9 +40,19 @@ const AppRoutes = () => {
           }
         />
       </Route>
-      
+      <Route path="/search/:city" element={
+         <Layout showHero={false}>
+        <SearchPage />
+          </Layout>
+        } />
       {/* Catch-all route to redirect unknown URLs to home */}
-      <Route path="*" element={<Navigate to={"/"} />} />
+      <Route
+        path="*"
+        element={
+         
+            <Navigate to={"/"} />
+        }
+      />
     </Routes>
   );
 };
