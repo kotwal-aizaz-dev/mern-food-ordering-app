@@ -3,6 +3,7 @@ import multer from "multer";
 import {
   createRestaurant,
   getRestaurant,
+  getRestaurantById,
   getRestaurants,
   updateRestaurant,
 } from "../controllers/restaurant.controller";
@@ -39,7 +40,23 @@ router.put(
   updateRestaurant as any
 );
 
-router.get("/search/:city" , param("city").isString().trim().notEmpty().withMessage("City parameter must be a valid string"),
-getRestaurants as any
-)
+router.get(
+  "/search/:city",
+  param("city")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("City parameter must be a valid string"),
+  getRestaurants as any
+);
+
+router.get(
+  "/:restaurantId",
+  param("restaurantId")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("restaurantId parameter must be a valid string"),
+    getRestaurantById as any
+);
 export default router;

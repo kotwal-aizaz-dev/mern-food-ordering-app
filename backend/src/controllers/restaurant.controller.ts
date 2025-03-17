@@ -70,6 +70,22 @@ export const getRestaurants = async (req: Request, res: Response) => {
   }
 };
 
+export const getRestaurantById = async (req:Request, res:Response) => {
+  try {
+    const restaurantId = req.params.restaurantId
+    const restaurant = await Restaurant.findById(new ObjectId(restaurantId))
+    if(!restaurant) {
+      return res.status(404).json({
+        message: "Restaurant not found!"
+      })
+    }
+    return res.status(200).send(restaurant)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json("Something went wrong!")
+  }
+}
+
 export const getRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurant = await Restaurant.findOne({
