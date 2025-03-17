@@ -6,6 +6,7 @@ import UserProfilePage from "./components/pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ManageRestaurantPage from "./components/pages/ManageRestaurantPage";
 import SearchPage from "./components/pages/SearchPage";
+import DetailPage from "./components/pages/DetailPage";
 
 const AppRoutes = () => {
   return (
@@ -39,20 +40,25 @@ const AppRoutes = () => {
             </Layout>
           }
         />
+        <Route
+          path="/restaurant/:restaurantId"
+          element={
+            <Layout>
+              <DetailPage />
+            </Layout>
+          }
+        />
       </Route>
-      <Route path="/search/:city" element={
-         <Layout showHero={false}>
-        <SearchPage />
-          </Layout>
-        } />
-      {/* Catch-all route to redirect unknown URLs to home */}
       <Route
-        path="*"
+        path="/search/:city"
         element={
-         
-            <Navigate to={"/"} />
+          <Layout showHero={false}>
+            <SearchPage />
+          </Layout>
         }
       />
+      {/* Catch-all route to redirect unknown URLs to home */}
+      <Route path="*" element={<Navigate to={"/"} />} />
     </Routes>
   );
 };

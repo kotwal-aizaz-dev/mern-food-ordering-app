@@ -6,6 +6,30 @@ import { Restaurant, RestaurantSearchResponse } from "types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+export const useGetRestaurantById = (restaurantId?: string) => {
+  const getRestaurantRequest = async (): Promise<Restaurant> => {
+    const response = await fetch(
+      `${API_BASE_URL}/api/restaurant/${restaurantId}`,
+      {}
+    );
+    if (!response.ok) {
+      throw new Error("Failed to get restaurant by id");
+    }
+
+    return response.json();
+  };
+
+  const { data: restaurant, isLoading } = useQuery(
+    ["fetchRestaurant"],
+    getRestaurantRequest,
+    {
+      enabled: !!restaurantId,
+    }
+  );
+
+  return { restaurant, isLoading };
+};
+
 export const useGetRestaurant = () => {
   const { getAccessTokenSilently } = useAuth0();
   const getRestaurantRequest = async (): Promise<Restaurant> => {
