@@ -70,7 +70,7 @@ const SearchPage = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-5 mx-4">
         <div className="" id="cuisines-list">
           <CuisineFilter
             selectedCuisines={searchState.selectedCuisines}
