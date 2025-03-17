@@ -26,17 +26,25 @@ const formSchema = z.object({
 });
 
 // Define the form data type based on the schema
-type UserFormData = z.infer<typeof formSchema>;
+export type UserFormData = z.infer<typeof formSchema>;
 
 // Define the prop types for the component
 type Props = {
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
   currentUser: User;
+  title?: string;
+  buttonText?: string;
 };
 
 // Component
-const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
+const UserProfileForm = ({
+  title = "User Profile",
+  buttonText = "Submit",
+  onSave,
+  isLoading,
+  currentUser,
+}: Props) => {
   // initialize the react hook form with zod resolver and default values
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
@@ -57,7 +65,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
       >
         {/* Form heading  */}
         <div className="">
-          <h2 className="text-2xl font-bold">User Profile Form</h2>
+          <h2 className="text-2xl font-bold">{title}</h2>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
@@ -140,7 +148,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
           <LoadingButton />
         ) : (
           <Button type="submit" className="bg-orange-500 cursor-pointer">
-            Submit
+            {buttonText}
           </Button>
         )}
       </form>

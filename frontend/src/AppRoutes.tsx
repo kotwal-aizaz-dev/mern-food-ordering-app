@@ -40,20 +40,21 @@ const AppRoutes = () => {
             </Layout>
           }
         />
-        <Route
-          path="/restaurant/:restaurantId"
-          element={
-            <Layout>
-              <DetailPage />
-            </Layout>
-          }
-        />
       </Route>
+
       <Route
         path="/search/:city"
         element={
           <Layout showHero={false}>
             <SearchPage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/restaurant/:restaurantId"
+        element={
+          <Layout>
+            <DetailPage />
           </Layout>
         }
       />

@@ -5,6 +5,7 @@ import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { Trash } from "lucide-react";
 
+
 type Props = {
   restaurant: Restaurant;
   cartItems: CartItem[];
@@ -56,6 +57,7 @@ const OrderSummary = ({ restaurant, cartItems, removeFromCart }: Props) => {
           <span>₹{(restaurant.deliveryPrice / 100).toFixed(2)}</span>
         </div>
         <Separator />
+    
       </CardContent>
     </>
   );
