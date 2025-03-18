@@ -7,14 +7,14 @@ import { validateUserRequest } from "../middleware/requests.validation";
 const router = express.Router();
 
 // /api/my/user
-router.get("/", jwtCheck, jwtParse as any, getCurrentUser as any);
-router.post("/", jwtCheck, createCurrentUser as any);
+router.get("/", jwtCheck, jwtParse, getCurrentUser );
+router.post("/", jwtCheck, createCurrentUser);
 router.put(
   "/",
   jwtCheck,
-  jwtParse as any,
-  validateUserRequest as any,
-  updateCurrentUser as any
+  jwtParse,
+  validateUserRequest,
+  updateCurrentUser
 );
 
 export default router;

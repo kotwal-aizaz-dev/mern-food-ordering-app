@@ -61,7 +61,7 @@ export const getRestaurants = async (req: Request, res: Response) => {
       },
     };
 
-    res.json(response);
+    res.status(200).send(response);
   } catch (error) {
     console.log(error);
     res.json(500).json({
@@ -75,11 +75,11 @@ export const getRestaurantById = async (req:Request, res:Response) => {
     const restaurantId = req.params.restaurantId
     const restaurant = await Restaurant.findById(new ObjectId(restaurantId))
     if(!restaurant) {
-      return res.status(404).json({
+      res.status(404).json({
         message: "Restaurant not found!"
       })
     }
-    return res.status(200).send(restaurant)
+    res.status(200).send(restaurant)
   } catch (error) {
     console.log(error)
     res.status(500).json("Something went wrong!")
@@ -92,7 +92,7 @@ export const getRestaurant = async (req: Request, res: Response) => {
       user: new ObjectId(req.userId),
     });
     if (!restaurant) {
-      return res.status(404).json({ message: "restaurant not found" });
+      res.status(404).json({ message: "restaurant not found" });
     }
     res.json(restaurant);
   } catch (error) {
@@ -105,7 +105,7 @@ export const createRestaurant = async (req: Request, res: Response) => {
   try {
     const existingRestaurant = await Restaurant.findOne({ user: req.userId });
     if (existingRestaurant) {
-      return res
+      res
         .status(409)
         .json({ message: "User restaurant already exists" });
     }
@@ -133,24 +133,26 @@ export const updateRestaurant = async (req: Request, res: Response) => {
     });
 
     if (!restaurant) {
-      return res.status(404).json({ message: "restaurant not found" });
+      res.status(404).json({ message: "restaurant not found" });
     }
+    else {
 
-    restaurant.restaurantName = req.body.restaurantName;
-    restaurant.city = req.body.city;
-    restaurant.country = req.body.country;
-    restaurant.deliveryPrice = req.body.deliveryPrice;
-    restaurant.estimatedDeliveryTime = req.body.estimatedDeliveryTime;
-    restaurant.cuisines = req.body.cuisines;
-    restaurant.menuItems = req.body.menuItems;
-    restaurant.lastUpdate = new Date();
-
-    if (req.file) {
-      const imageUrl = await uploadImage(req.file as Express.Multer.File);
-      restaurant.imageUrl = imageUrl;
+      restaurant.restaurantName = req.body.restaurantName;
+      restaurant.city = req.body.city;
+      restaurant.country = req.body.country;
+      restaurant.deliveryPrice = req.body.deliveryPrice;
+      restaurant.estimatedDeliveryTime = req.body.estimatedDeliveryTime;
+      restaurant.cuisines = req.body.cuisines;
+      restaurant.menuItems = req.body.menuItems;
+      restaurant.lastUpdate = new Date();
+      
+      if (req.file) {
+        const imageUrl = await uploadImage(req.file as Express.Multer.File);
+        restaurant.imageUrl = imageUrl;
+      }
+      await restaurant.save();
+      res.status(200).send(restaurant);
     }
-    await restaurant.save();
-    res.status(200).send(restaurant);
   } catch (error) {
     console.log(error);
     res.status(500).json("Something Went wrong");

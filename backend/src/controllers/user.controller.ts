@@ -7,13 +7,13 @@ export const getCurrentUser = async (req: Request, res: Response) => {
     // Find user by ID stored in request object (set by auth middleware)
     const currentUser = await User.findOne({ _id: req.userId });
     if (!currentUser) {
-      return res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: "User not found" });
     }
 
-    return res.json(currentUser);
+    res.json(currentUser);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -26,7 +26,7 @@ export const createCurrentUser = async (req: Request, res: Response) => {
 
     // If user exists, return success without creating new user
     if (existingUser) {
-      return res.status(200).send();
+      res.status(200).send();
     }
 
     // Create and save new user with data from request body
@@ -47,28 +47,30 @@ export const updateCurrentUser = async (req: Request, res: Response) => {
 
     // Validate that all required fields are provided
     if (!name || !addressLine1 || !country || !city) {
-      return res.status(400).json({ message: "All fields are required" });
+      res.status(400).json({ message: "All fields are required" });
     }
 
     // Find user by ID from request object
     const user = await User.findById(req.userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: "User not found" });
     }
+    else {
 
-    // Update user fields with new information
-    user.name = name;
-    user.addressLine1 = addressLine1;
-    user.city = city;
-    user.country = country;
-
-    // Save updated user information
-    await user.save();
-
-    return res.status(200).json(user.toObject());
+      // Update user fields with new information
+      user.name = name;
+      user.addressLine1 = addressLine1;
+      user.city = city;
+      user.country = country;
+      
+      // Save updated user information
+      await user.save();
+      
+      res.status(200).json(user.toObject());
+    }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Error updating user" });
+    res.status(500).json({ message: "Error updating user" });
   }
 };

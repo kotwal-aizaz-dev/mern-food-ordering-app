@@ -22,22 +22,22 @@ const upload = multer({
   },
 });
 
-router.get("/", jwtCheck, jwtParse as any, getRestaurant as any);
+router.get("/", jwtCheck, jwtParse, getRestaurant);
 router.post(
   "/",
   upload.single("imageFile"),
-  validateRestaurantRequest as any,
+  validateRestaurantRequest,
   //   jwtCheck,
   //   jwtParse as any,
-  createRestaurant as any
+  createRestaurant
 );
 router.put(
   "/",
   upload.single("imageFile"),
-  validateRestaurantRequest as any,
+  validateRestaurantRequest,
   jwtCheck,
-  jwtParse as any,
-  updateRestaurant as any
+  jwtParse,
+  updateRestaurant
 );
 
 router.get(
@@ -57,6 +57,6 @@ router.get(
     .trim()
     .notEmpty()
     .withMessage("restaurantId parameter must be a valid string"),
-    getRestaurantById as any
+    getRestaurantById
 );
 export default router;

@@ -13,7 +13,7 @@ router.post(
   "/checkout/create-checkout-session",
   jwtCheck,
   jwtParse,
-  createCheckoutSession as any
+  createCheckoutSession
 );
 
 router.post("/checkout/webhook", stripeWebhookHandler);

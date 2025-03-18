@@ -99,12 +99,12 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
     );
 
     if (!session.url) {
-      return res
+      res
         .status(500)
         .json({ message: "error creating stripe session " });
     }
     await newOrder.save();
-    return res.status(201).json({ url: session.url });
+    res.status(201).json({ url: session.url });
   } catch (error: any) {
     console.log(error);
     res.status(500).json({ message: error.raw.message });
