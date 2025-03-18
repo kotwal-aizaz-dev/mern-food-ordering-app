@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import Restaurant, { MenuItemType } from "../models/restaurant.model";
 import { ObjectId } from "mongodb";
 import { Order } from "../models/order.model";
+import { log } from "console";
 const stripe = new Stripe(process.env.STRIPE_API_KEY as string);
 const frontendURL = process.env.FRONTEND_URL as string;
 
@@ -20,6 +21,14 @@ type CheckoutSessionRequest = {
   };
   restaurantId: string;
 };
+
+export const stripeWebhookHandler = async (req: Request, res: Response) => {
+  console.log("Received Event")
+  console.log("=================")
+  console.log("event", req.body)
+  res.send()
+}
+
 export const createCheckoutSession = async (req: Request, res: Response) => {
   try {
     const checkoutSessionRequest: CheckoutSessionRequest = req.body;
