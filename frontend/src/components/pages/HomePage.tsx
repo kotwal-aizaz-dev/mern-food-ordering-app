@@ -6,7 +6,7 @@ const HomePage = () => {
   const navigate = useNavigate()
   const handleSearch = (searchFoxValues:SearchForm) => {
     navigate({
-      pathname: `/search/${searchFoxValues.searchQuery}`, 
+      pathname: `restaurant/search/${searchFoxValues.searchQuery}`, 
     })
   }
   return (
