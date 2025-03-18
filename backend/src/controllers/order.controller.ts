@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import Restaurant, { MenuItemType } from "../models/restaurant.model";
 import { ObjectId } from "mongodb";
 import { Order } from "../models/order.model";
-import { log } from "console";
+
 const stripe = new Stripe(process.env.STRIPE_API_KEY as string);
 const frontendURL = process.env.FRONTEND_URL as string;
 const STRIPE_ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET as string;
@@ -50,11 +50,23 @@ export const stripeWebhookHandler = async (req: Request, res: Response) => {
       order.status = "paid";
       await order?.save();
     }
-    
   }
-  res.status(200).send()
+  res.status(200).send();
 };
 
+export const getOrdersByUserId = async (req: Request, res: Response) => {
+  try {
+    const orders = await Order.find({ user: new ObjectId(req.userId) })
+      .populate("restaurant")
+      .populate("user");
+    res.status(200).json(orders);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Something went wrong!",
+    });
+  }
+};
 export const createCheckoutSession = async (req: Request, res: Response) => {
   try {
     const checkoutSessionRequest: CheckoutSessionRequest = req.body;
