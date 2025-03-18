@@ -33,33 +33,33 @@ export const jwtParse = async (
 
   // Check if Authorization header exists and starts with "Bearer"
   if (!authorization || !authorization.startsWith("Bearer ")) {
-    return res.sendStatus(401);
-  }
+    res.sendStatus(401);
+  } else {
+    // Extract the token from the Authorization header
+    // Format: "Bearer <token>"
+    const token = authorization.split(" ")[1];
 
-  // Extract the token from the Authorization header
-  // Format: "Bearer <token>"
-  const token = authorization.split(" ")[1];
+    try {
+      // Decode the JWT token (without verification)
+      const decoded = jwt.decode(token) as jwt.JwtPayload;
+      // Extract the Auth0 user ID from the 'sub' claim
+      const auth0Id = decoded.sub;
 
-  try {
-    // Decode the JWT token (without verification)
-    const decoded = jwt.decode(token) as jwt.JwtPayload;
-    // Extract the Auth0 user ID from the 'sub' claim
-    const auth0Id = decoded.sub;
+      // Find the user in our database using the Auth0 ID
+      const user = await User.findOne({ auth0Id });
 
-    // Find the user in our database using the Auth0 ID
-    const user = await User.findOne({ auth0Id });
-
-    // If user doesn't exist in our database, return unauthorized
-    if (!user) {
-      return res.sendStatus(401);
+      // If user doesn't exist in our database, return unauthorized
+      if (!user) {
+        res.sendStatus(401);
+      } else {
+        // Attach user information to the request object for use in subsequent middleware
+        req.auth0Id = auth0Id as string;
+        req.userId = user._id.toString();
+      }
+      next();
+    } catch (error) {
+      // If token decoding fails, return unauthorized
+      res.sendStatus(401);
     }
-
-    // Attach user information to the request object for use in subsequent middleware
-    req.auth0Id = auth0Id as string;
-    req.userId = user._id.toString();
-    next();
-  } catch (error) {
-    // If token decoding fails, return unauthorized
-    return res.sendStatus(401);
   }
 };

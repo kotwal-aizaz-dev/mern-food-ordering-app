@@ -6,7 +6,7 @@ const router = express.Router();
 router.post(
   "/checkout/create-checkout-session",
   jwtCheck,
-  jwtParse as any,
+  jwtParse,
   createCheckoutSession as any
 );
 
