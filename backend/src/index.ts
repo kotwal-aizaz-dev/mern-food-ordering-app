@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { v2 as cloudinary } from "cloudinary";
 import userRouter from "./routes/user.routes";
 import restaurantRouter from "./routes/restaurant.routes"
+import OrderRouter from "./routes/order.routes"
 // import { createUser } from "./controllers/user.controller";
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => {
@@ -24,6 +25,7 @@ app.use("/health", async (req: Request, res: Response) => {
 });
 app.use("/api/user", userRouter);
 app.use("/api/restaurant", restaurantRouter)
+app.use("/api/order", OrderRouter)
 
 app.listen(7000, () => {
   console.log("Server started on localhost:7000");
