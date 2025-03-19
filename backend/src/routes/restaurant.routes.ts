@@ -4,6 +4,7 @@ import {
   createRestaurant,
   getRestaurant,
   getRestaurantById,
+  getRestaurantOrders,
   getRestaurants,
   updateRestaurant,
 } from "../controllers/restaurant.controller";
@@ -23,6 +24,7 @@ const upload = multer({
 });
 
 router.get("/", jwtCheck, jwtParse, getRestaurant);
+router.get("/orders", jwtCheck, jwtParse, getRestaurantOrders);
 router.post(
   "/",
   upload.single("imageFile"),
@@ -57,6 +59,8 @@ router.get(
     .trim()
     .notEmpty()
     .withMessage("restaurantId parameter must be a valid string"),
-    getRestaurantById
+  getRestaurantById
 );
+
+
 export default router;
