@@ -43,7 +43,12 @@ const OrderStatusPage = () => {
               Order Status: {getOrderProgress(order).label}
             </span>
             <span className="">
-              Expected By: {getExpectedDeliveryTime(order)}
+              {order.status === "delivered" ? (
+                <span>Delivered At: {getExpectedDeliveryTime(order)}</span>
+              ) : (
+                <span>Expected By: {getExpectedDeliveryTime(order)}</span>
+              )}
+              
             </span>
           </h1>
           <Progress

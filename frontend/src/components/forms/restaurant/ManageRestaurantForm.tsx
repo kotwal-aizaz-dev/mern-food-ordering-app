@@ -59,6 +59,7 @@ const formSchema = z
 type RestaurantFormData = z.infer<typeof formSchema>;
 
 const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
+
   const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -81,7 +82,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
       (restaurant.deliveryPrice / 100).toFixed(2)
     );
 
-    const menuItemsFormatted = restaurant.menuItems.map((item) => ({
+    const menuItemsFormatted = restaurant.menuItems?.map((item) => ({
       ...item,
       price: parseInt((item.price / 100).toFixed(2)),
     }));
@@ -123,6 +124,8 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
     }
     onSave(formData);
   };
+
+  
   return (
     <Form {...form}>
       <form

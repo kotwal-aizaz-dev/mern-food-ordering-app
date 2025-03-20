@@ -47,12 +47,11 @@ export const useGetRestaurant = () => {
     return response.json();
   };
 
-  const { data: restaurant, isLoading } = useQuery(
+  const { data: restaurant, isLoading, isError } = useQuery(
     "fetchMyRestaurant",
     getRestaurantRequest
   );
-
-  return { restaurant, isLoading };
+  return { restaurant, isLoading, isError };
 };
 
 export const useGetRestaurantOrders = () => {
@@ -74,7 +73,10 @@ export const useGetRestaurantOrders = () => {
 
   const { data: orders, isLoading } = useQuery(
     ["fetchRestaurantOrders"],
-    getRestaurantOrdersRequest
+    getRestaurantOrdersRequest,
+    {
+      refetchInterval: 10000
+    }
   );
 
   return { orders, isLoading };

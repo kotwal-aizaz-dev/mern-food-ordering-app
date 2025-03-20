@@ -13,7 +13,7 @@ const MainNav = () => {
         {/* show the large screen dropdown if the user is authenticated */}
         {isAuthenticated ? (
           <>
-          <Link to={"order-status"} className="font-bold hover:text-orange-500">Order Status</Link>
+          <Link to={"/order-status"} className="font-bold hover:text-orange-500">Order Status</Link>
           <UserMenu/>
           </>
         ) : (
