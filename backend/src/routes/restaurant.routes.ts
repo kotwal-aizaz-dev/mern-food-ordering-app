@@ -6,6 +6,7 @@ import {
   getRestaurantById,
   getRestaurantOrders,
   getRestaurants,
+  updateOrderStatus,
   updateRestaurant,
 } from "../controllers/restaurant.controller";
 import { jwtCheck, jwtParse } from "../middleware/auth";
@@ -25,12 +26,13 @@ const upload = multer({
 
 router.get("/", jwtCheck, jwtParse, getRestaurant);
 router.get("/orders", jwtCheck, jwtParse, getRestaurantOrders);
+router.patch("/order/:orderId/status", jwtCheck, jwtParse, updateOrderStatus)
 router.post(
   "/",
   upload.single("imageFile"),
   validateRestaurantRequest,
-  //   jwtCheck,
-  //   jwtParse as any,
+    jwtCheck,
+    jwtParse,
   createRestaurant
 );
 router.put(
@@ -49,7 +51,7 @@ router.get(
     .trim()
     .notEmpty()
     .withMessage("City parameter must be a valid string"),
-  getRestaurants as any
+  getRestaurants
 );
 
 router.get(
